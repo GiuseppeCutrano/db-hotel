@@ -79,3 +79,31 @@ Somma i prezzi dei pagamenti raggruppandoli per status
 SELECT `status`, SUM(`price`) AS `totale_somma`
 FROM `pagamenti`
 GROUP BY `status`;
+
+
+Stampare tutti gli ospiti per ogni prenotazione
+
+SELECT `prenotazioni_has_ospiti`.`prenotazione_id` AS `id_pren`, `ospiti`.`name`, `ospiti`.`lastname`
+FROM `prenotazioni_has_ospiti`
+INNER JOIN `ospiti`
+ON `prenotazioni_has_ospiti`.`ospite_id` = `ospiti`.`id`;
+
+
+Le stanze sono state tutte prenotate almeno una volta? (Visualizzare le stanze non ancora prenotate)
+
+SELECT *
+FROM `stanze`
+LEFT JOIN `prenotazioni`
+ON `prenotazioni`.`stanza_id` = `stanze`.`id`
+WHERE `prenotazioni`.`id` IS NULL
+
+
+Prendi i dati di fatturazione per la prenotazione con id=7
+
+SELECT `paganti`.`name`, `paganti`.`lastname`, `paganti`.`address`
+FROM `prenotazioni`
+INNER JOIN `pagamenti`
+ON `prenotazioni`.`id` = `pagamenti`.`prenotazione_id`
+INNER JOIN `paganti`
+ON `pagamenti`.`pagante_id` = `paganti`.`id`
+WHERE `prenotazioni`.`id` = '7';
